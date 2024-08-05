@@ -1,11 +1,11 @@
-package com.genar.e_market.home.ui
+package com.genar.e_market.productList.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.genar.e_market.di.DispatcherModule
-import com.genar.e_market.home.data.ProductRepository
-import com.genar.e_market.home.mapper.ProductUIMapper
-import com.genar.e_market.home.model.ProductUIModel
+import com.genar.e_market.productList.data.ProductRepository
+import com.genar.e_market.productList.mapper.ProductUIMapper
+import com.genar.e_market.productList.model.ProductUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,16 +15,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class ProductListViewModel @Inject constructor(
     @DispatcherModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private var productUIMapper: ProductUIMapper,
     private val productRepository: ProductRepository
+    //private val addToCartUseCase: AddToCartUseCase
 ) : ViewModel() {
 
-    private val productCountLimit = 12
+    private val productCountLimit = 4
     private var currentPage = 0
 
     private val wholeProductList: ArrayList<ProductUIModel> = arrayListOf()
+    private var currentProducList: ArrayList<ProductUIModel> = arrayListOf()
 
     private val _productList = MutableSharedFlow<List<ProductUIModel>?>()
     val productList: SharedFlow<List<ProductUIModel>?>
@@ -34,10 +36,12 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             val result = productRepository.getProductList().body()
             result?.map { productEntity ->
-                wholeProductList.add(productUIMapper.map(productEntity))
+                val product = productUIMapper.map(productEntity)
+                wholeProductList.add(product)
+                currentProducList.add(product)
             }
             _productList.emit(
-                wholeProductList.toList()
+                currentProducList.toList()
                     .subList(currentPage * productCountLimit, productCountLimit)
             )
             currentPage++
@@ -45,7 +49,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadNextData(): List<ProductUIModel> {
-        val result = wholeProductList.subList(
+        val result = currentProducList.subList(
             currentPage * productCountLimit,
             (currentPage + 1) * productCountLimit
         )
@@ -55,4 +59,19 @@ class HomeViewModel @Inject constructor(
         return result
     }
 
+    fun searchProductList(query: String): List<ProductUIModel> {
+        currentProducList = wholeProductList.filter { product ->
+            product.name.contains(query, ignoreCase = true)
+        }.toCollection(ArrayList())
+
+        currentPage = 0
+
+        return currentProducList.subList(
+            0,
+            if (currentProducList.size < productCountLimit)
+                currentProducList.size
+            else
+                productCountLimit
+        )
+    }
 }

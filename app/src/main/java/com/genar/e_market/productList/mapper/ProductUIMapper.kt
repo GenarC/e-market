@@ -1,7 +1,7 @@
-package com.genar.e_market.home.mapper
+package com.genar.e_market.productList.mapper
 
-import com.genar.e_market.home.data.ProductEntity
-import com.genar.e_market.home.model.ProductUIModel
+import com.genar.e_market.productList.data.ProductEntity
+import com.genar.e_market.productList.model.ProductUIModel
 import javax.inject.Inject
 
 class ProductUIMapper @Inject constructor() {

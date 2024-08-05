@@ -1,4 +1,4 @@
-package com.genar.e_market.home.data
+package com.genar.e_market.productList.data
 
 import com.genar.e_market.network.ProductService
 import javax.inject.Inject

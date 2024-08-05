@@ -1,4 +1,4 @@
-package com.genar.e_market.home.data
+package com.genar.e_market.productList.data
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName

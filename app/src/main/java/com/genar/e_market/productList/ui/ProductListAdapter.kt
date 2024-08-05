@@ -1,4 +1,4 @@
-package com.genar.e_market.home.ui
+package com.genar.e_market.productList.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import coil.request.CachePolicy
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.genar.e_market.databinding.ItemHomeProductBinding
-import com.genar.e_market.home.model.ProductUIModel
+import com.genar.e_market.productList.model.ProductUIModel
 
 class ProductListAdapter(
     private var productList: List<ProductUIModel>

@@ -1,4 +1,4 @@
-package com.genar.e_market.home.ui
+package com.genar.e_market.productList.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -10,7 +10,7 @@ class BottomNavigationAdapter(
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private val bottomNavAdapterList = arrayListOf(
-        HomeFragment.newInstance()
+        ProductListFragment.newInstance()
     )
 
     override fun getItemCount(): Int = bottomNavAdapterList.size

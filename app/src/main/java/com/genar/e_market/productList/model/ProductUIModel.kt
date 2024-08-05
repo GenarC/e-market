@@ -1,5 +1,9 @@
-package com.genar.e_market.home.model
+package com.genar.e_market.productList.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 class ProductUIModel(
     val createdAt: String,
     val name: String,
@@ -9,4 +13,4 @@ class ProductUIModel(
     val model: String,
     val brand: String,
     val id: String
-)
+) : Parcelable

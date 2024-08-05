@@ -1,4 +1,4 @@
-package com.genar.e_market.home.ui
+package com.genar.e_market.productList.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,16 +11,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.genar.e_market.databinding.FragmentHomeBinding
+import com.genar.e_market.databinding.FragmentProductListBinding
 import com.genar.e_market.extensions.observeFlow
-import com.genar.e_market.home.model.ProductUIModel
+import com.genar.e_market.productList.model.ProductUIModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class ProductListFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by activityViewModels()
+    private lateinit var binding: FragmentProductListBinding
+    private val viewModel: ProductListViewModel by activityViewModels()
 
     private lateinit var productAdapter: ProductListAdapter
 
@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentProductListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,7 +52,8 @@ class HomeFragment : Fragment() {
 
         binding.containerSearch.addTextChangedListener(
             onTextChanged = { text, _, _, _ ->
-                productAdapter.searchProduct(text.toString())
+                val newList = viewModel.searchProductList(text.toString())
+                productAdapter.refreshList(newList)
             }
         )
 
@@ -76,7 +77,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance() = ProductListFragment()
     }
 
 }
