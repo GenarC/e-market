@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
@@ -21,7 +23,6 @@ private const val ARG_PRODUCT = "product"
 
 @AndroidEntryPoint
 class ProductDetailFragment @Inject constructor(
-    //private val addToCartUseCase: AddToCartUseCase
 ) : Fragment() {
 
     private lateinit var binding: FragmentProductDetailBinding
@@ -49,6 +50,7 @@ class ProductDetailFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().title = product?.name
         initViews()
     }
 
@@ -63,8 +65,6 @@ class ProductDetailFragment @Inject constructor(
                 diskCachePolicy(CachePolicy.DISABLED)
                 transformations(RoundedCornersTransformation(4f))
             }
-
-            requireActivity().title = it.name
         }
 
         binding.btnAddToCart.setOnClickListener {

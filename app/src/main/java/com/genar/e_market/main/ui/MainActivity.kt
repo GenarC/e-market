@@ -49,11 +49,11 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     private fun selectMenuItem(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.nav_home -> {
-                binding.mainViewPager.setCurrentItem(BottomNavigationAdapter.HOME_PAGE_INDEX, false)
+                binding.mainViewPager.setCurrentItem(BottomNavigationAdapter.HOME_PAGE_INDEX, true)
             }
 
-            R.id.nav_basket -> {
-//                binding.mainViewPager.setCurrentItem(BottomNavigationAdapter.BASKET_PAGE_INDEX, false)
+            R.id.nav_cart -> {
+                binding.mainViewPager.setCurrentItem(BottomNavigationAdapter.CART_PAGE_INDEX, true)
             }
 
             R.id.nav_favourite -> {

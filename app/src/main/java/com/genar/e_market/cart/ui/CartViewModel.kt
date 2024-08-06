@@ -1,11 +1,12 @@
-package com.genar.e_market.productDetail.ui
+package com.genar.e_market.cart.ui
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ProductDetailViewModel @Inject constructor(
+class CartViewModel @Inject constructor(
     //private val addToCartUseCase: AddToCartUseCase
 ) : ViewModel() {
 }
