@@ -2,7 +2,9 @@ package com.genar.e_market.productList.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.genar.e_market.cart.domain.AddItemToCartUseCase
 import com.genar.e_market.di.DispatcherModule
+import com.genar.e_market.productList.data.ProductEntity
 import com.genar.e_market.productList.data.ProductRepository
 import com.genar.e_market.productList.mapper.ProductUIMapper
 import com.genar.e_market.productList.model.ProductUIModel
@@ -18,8 +20,8 @@ import javax.inject.Inject
 class ProductListViewModel @Inject constructor(
     @DispatcherModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private var productUIMapper: ProductUIMapper,
-    private val productRepository: ProductRepository
-    //private val addToCartUseCase: AddToCartUseCase
+    private val productRepository: ProductRepository,
+    private val addToCartUseCase: AddItemToCartUseCase
 ) : ViewModel() {
 
     private val productCountLimit = 4
@@ -73,5 +75,22 @@ class ProductListViewModel @Inject constructor(
             else
                 productCountLimit
         )
+    }
+
+    fun addItemToCart(product: ProductUIModel) {
+        viewModelScope.launch(ioDispatcher) {
+            addToCartUseCase(
+                ProductEntity(
+                    id = product.id,
+                    name = product.name,
+                    price = product.price,
+                    description = product.description,
+                    image = product.image,
+                    brand = product.brand,
+                    model = product.model,
+                    createdAt = product.createdAt
+                )
+            )
+        }
     }
 }

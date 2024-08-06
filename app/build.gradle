@@ -53,6 +53,10 @@ dependencies {
     implementation libs.androidx.activity
     kapt(libs.hilt.compiler)
     implementation(libs.coil)
+    // Room
+    implementation(libs.roomDb)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

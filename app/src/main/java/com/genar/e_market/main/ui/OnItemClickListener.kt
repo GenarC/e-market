@@ -5,3 +5,7 @@ import com.genar.e_market.productList.model.ProductUIModel
 interface OnItemClickListener {
     fun onItemClick(product: ProductUIModel)
 }
+
+interface OnAddToCartClickListener {
+    fun onAddToCartClick(product: ProductUIModel)
+}

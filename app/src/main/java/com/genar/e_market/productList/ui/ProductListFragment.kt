@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -32,8 +33,6 @@ class ProductListFragment : Fragment() {
         super.onAttach(context)
         if (context is OnItemClickListener) {
             productClickListener = context
-        } else {
-            throw RuntimeException("$context must implement OnItemClickListener")
         }
     }
 
@@ -66,6 +65,11 @@ class ProductListFragment : Fragment() {
         productAdapter.setOnItemClickListener {
             productClickListener.onItemClick(it)
         }
+        productAdapter.setOnAddToCartClickListener {
+            viewModel.addItemToCart(it)
+            Toast.makeText(requireContext(), "${it.name} is added to cart", Toast.LENGTH_SHORT)
+                .show()
+        }
 
         binding.containerSearch.addTextChangedListener(
             onTextChanged = { text, _, _, _ ->
@@ -87,8 +91,6 @@ class ProductListFragment : Fragment() {
                 }
             }
         })
-
-
     }
 
     private fun handleProductList(productList: List<ProductUIModel>?) {

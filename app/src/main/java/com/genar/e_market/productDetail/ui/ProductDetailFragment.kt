@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class ProductDetailFragment @Inject constructor(
     private fun initViews() {
         product?.let {
             binding.tvProductName.text = it.name
-            binding.tvPriceValue.text = it.price
+            binding.tvPriceValue.text = it.price.toString()
             binding.tvProductDescription.text = it.description
             binding.ivProductImage.load(it.image) {
                 crossfade(true)
@@ -69,7 +70,8 @@ class ProductDetailFragment @Inject constructor(
 
         binding.btnAddToCart.setOnClickListener {
             product?.let {
-                //addToCartUseCase(it)
+                viewModel.addItemToCart(it)
+                Toast.makeText(requireContext(), "${product!!.name} is added to cart", Toast.LENGTH_SHORT).show()
             }
         }
     }

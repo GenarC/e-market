@@ -15,9 +15,14 @@ class ProductListAdapter(
 ) : RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
 
     private var clickListener: ((ProductUIModel) -> Unit)? = null
+    private var addToCartClickListener: ((ProductUIModel) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (ProductUIModel) -> Unit) {
         clickListener = listener
+    }
+
+    fun setOnAddToCartClickListener(listener: (ProductUIModel) -> Unit) {
+        addToCartClickListener = listener
     }
 
     private var filteredProducts: List<ProductUIModel> = emptyList()
@@ -64,7 +69,7 @@ class ProductListAdapter(
     inner class ProductViewHolder(private var binding: ItemHomeProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productUIModel: ProductUIModel) {
-            binding.tvProductPrice.text = productUIModel.price
+            binding.tvProductPrice.text = productUIModel.price.toString()
             binding.tvProductTitle.text = productUIModel.name
             binding.ivProduct.load(productUIModel.image) {
                 crossfade(true)
@@ -75,6 +80,10 @@ class ProductListAdapter(
 
             binding.root.setOnClickListener {
                 clickListener?.invoke(productUIModel)
+            }
+
+            binding.btnAddToCart.setOnClickListener {
+                addToCartClickListener?.invoke(productUIModel)
             }
         }
     }
