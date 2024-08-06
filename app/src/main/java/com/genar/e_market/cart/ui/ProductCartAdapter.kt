@@ -12,6 +12,7 @@ class ProductCartAdapter(
 
     private var addClickListener: ((ProductUIModel) -> Unit)? = null
     private var deleteClickListener: ((ProductUIModel) -> Unit)? = null
+    private var itemClickedListener: ((ProductUIModel) -> Unit)? = null
 
     fun setOnAddClickListener(listener: (ProductUIModel) -> Unit) {
         addClickListener = listener
@@ -19,6 +20,10 @@ class ProductCartAdapter(
 
     fun setOnDeleteClickListener(listener: (ProductUIModel) -> Unit) {
         deleteClickListener = listener
+    }
+
+    fun setOnItemClickedListener(listener: (ProductUIModel) -> Unit) {
+        itemClickedListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductCartViewHolder {
@@ -56,6 +61,10 @@ class ProductCartAdapter(
                 }
                 btnAdd.setOnClickListener {
                     addClickListener?.invoke(product)
+                }
+
+                root.setOnClickListener {
+                    itemClickedListener?.invoke(product)
                 }
             }
         }

@@ -88,7 +88,8 @@ class ProductListViewModel @Inject constructor(
                     image = product.image,
                     brand = product.brand,
                     model = product.model,
-                    createdAt = product.createdAt
+                    createdAt = product.createdAt,
+                    count = product.count
                 )
             )
         }

@@ -11,7 +11,8 @@ class AddItemToCartUseCase @Inject constructor(
         val item = productRepository.getProductById(product.id.toString())
 
         if (item == null) {
-            productRepository.insertProduct(product)
+            val newItem = product.copy(count = 1)
+            productRepository.insertProduct(newItem)
         }else{
             val updatedItem = item.copy(count = item.count + 1)
             productRepository.updateProduct(updatedItem)

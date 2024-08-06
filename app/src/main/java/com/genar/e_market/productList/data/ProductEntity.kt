@@ -26,5 +26,5 @@ data class ProductEntity(
     @SerializedName("brand")
     val brand: String,
     @SerializedName("count")
-    val count: Int = 0
+    var count: Int
 )

@@ -53,9 +53,11 @@ class CartViewModel @Inject constructor(
                     image = product.image,
                     brand = product.brand,
                     model = product.model,
-                    createdAt = product.createdAt
+                    createdAt = product.createdAt,
+                    count = product.count
                 )
             )
+            getProductsFromCart()
         }
     }
 
@@ -72,9 +74,12 @@ class CartViewModel @Inject constructor(
                     image = product.image,
                     brand = product.brand,
                     model = product.model,
-                    createdAt = product.createdAt
+                    createdAt = product.createdAt,
+                    count = product.count
                 )
             )
+
+            getProductsFromCart()
         }
     }
 }

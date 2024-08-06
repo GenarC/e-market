@@ -14,7 +14,8 @@ class ProductUIMapper @Inject constructor() {
             description = productEntity.description,
             model = productEntity.model,
             brand = productEntity.brand,
-            id = productEntity.id
+            id = productEntity.id,
+            count = productEntity.count
         )
     }
 }
