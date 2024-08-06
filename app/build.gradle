@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -49,6 +50,7 @@ dependencies {
     implementation(libs.retrofit.gson.converter)
     implementation(libs.gson)
     implementation(libs.hilt.android)
+    implementation libs.androidx.activity
     kapt(libs.hilt.compiler)
     implementation(libs.coil)
 

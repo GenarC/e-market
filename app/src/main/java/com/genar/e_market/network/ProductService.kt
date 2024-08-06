@@ -1,6 +1,6 @@
 package com.genar.e_market.network
 
-import com.genar.e_market.home.data.ProductEntity
+import com.genar.e_market.productList.data.ProductEntity
 import retrofit2.Response
 import retrofit2.http.GET
 

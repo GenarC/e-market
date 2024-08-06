@@ -2,14 +2,18 @@ package com.genar.e_market.main.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import com.genar.e_market.R
 import com.genar.e_market.databinding.ActivityMainBinding
-import com.genar.e_market.home.ui.BottomNavigationAdapter
+import com.genar.e_market.productDetail.ui.ProductDetailFragment
+import com.genar.e_market.productList.model.ProductUIModel
+import com.genar.e_market.productList.ui.BottomNavigationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnItemClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private val bottomNavigationAdapter = BottomNavigationAdapter(supportFragmentManager, lifecycle)
@@ -27,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     private fun initiateBottomNavigation() {
         binding.mainBottomNavigation.inflateMenu(R.menu.bottom_navigation_menu)
 
-
         with(binding.mainViewPager) {
             adapter = bottomNavigationAdapter
             isUserInputEnabled = false
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             selectMenuItem(it)
         }
     }
-    
+
     private fun selectMenuItem(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.nav_home -> {
@@ -61,6 +64,22 @@ class MainActivity : AppCompatActivity() {
 //                binding.mainViewPager.setCurrentItem(BottomNavigationAdapter.PERSON_PAGE_INDEX, false)
             }
         }
+    }
 
+    override fun onItemClick(product: ProductUIModel) {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                binding.mainFragmentContainer.id,
+                ProductDetailFragment.newInstance(product)
+            )
+            .addToBackStack(null)
+            .commit()
+
+        binding.mainFragmentContainer.visibility = VISIBLE
+    }
+
+    fun hideFragment() {
+        binding.mainFragmentContainer.visibility = View.GONE
     }
 }
+

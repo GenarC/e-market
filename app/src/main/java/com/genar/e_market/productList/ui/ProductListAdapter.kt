@@ -14,10 +14,15 @@ class ProductListAdapter(
     private var productList: List<ProductUIModel>
 ) : RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
 
+    private var clickListener: ((ProductUIModel) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (ProductUIModel) -> Unit) {
+        clickListener = listener
+    }
+
     private var filteredProducts: List<ProductUIModel> = emptyList()
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ): ProductViewHolder {
         return ProductViewHolder(
             ItemHomeProductBinding.inflate(
@@ -56,7 +61,7 @@ class ProductListAdapter(
         notifyDataSetChanged()
     }
 
-    class ProductViewHolder(var binding: ItemHomeProductBinding) :
+    inner class ProductViewHolder(private var binding: ItemHomeProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productUIModel: ProductUIModel) {
             binding.tvProductPrice.text = productUIModel.price
@@ -64,8 +69,12 @@ class ProductListAdapter(
             binding.ivProduct.load(productUIModel.image) {
                 crossfade(true)
                 scale(Scale.FIT)
-                diskCachePolicy(CachePolicy.ENABLED)
+                diskCachePolicy(CachePolicy.DISABLED)
                 transformations(RoundedCornersTransformation(4f))
+            }
+
+            binding.root.setOnClickListener {
+                clickListener?.invoke(productUIModel)
             }
         }
     }

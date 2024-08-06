@@ -1,5 +1,6 @@
 package com.genar.e_market.productList.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.genar.e_market.R
 import com.genar.e_market.databinding.FragmentProductListBinding
 import com.genar.e_market.extensions.observeFlow
+import com.genar.e_market.main.ui.OnItemClickListener
 import com.genar.e_market.productList.model.ProductUIModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,8 +24,18 @@ class ProductListFragment : Fragment() {
 
     private lateinit var binding: FragmentProductListBinding
     private val viewModel: ProductListViewModel by activityViewModels()
+    private lateinit var productClickListener: OnItemClickListener
 
     private lateinit var productAdapter: ProductListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnItemClickListener) {
+            productClickListener = context
+        } else {
+            throw RuntimeException("$context must implement OnItemClickListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +63,10 @@ class ProductListFragment : Fragment() {
         binding.rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProducts.adapter = productAdapter
 
+        productAdapter.setOnItemClickListener {
+            productClickListener.onItemClick(it)
+        }
+
         binding.containerSearch.addTextChangedListener(
             onTextChanged = { text, _, _, _ ->
                 val newList = viewModel.searchProductList(text.toString())
@@ -70,10 +87,17 @@ class ProductListFragment : Fragment() {
                 }
             }
         })
+
+
     }
 
     private fun handleProductList(productList: List<ProductUIModel>?) {
         productAdapter.refreshList(productList ?: emptyList())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().title = getString(R.string.app_name)
     }
 
     companion object {
